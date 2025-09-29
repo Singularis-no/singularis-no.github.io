@@ -15,13 +15,12 @@ const desc = "Vi bygger noe kult. Hold utkikk.";
     <link rel="icon" href="/favicon.ico" sizes="any" />
   </head>
   <body>
-    <!-- Starfield som bakgrunn -->
     <div class="starfield" aria-hidden="true"></div>
 
     <main class="card" aria-labelledby="logo">
       <p class="tag">Kommer snart</p>
       <h1 id="logo" class="logo">Singularis</h1>
-      <a id="contact" class="cta" href="#" rel="nofollow">
+  <a id="contact" class="cta" href="#" rel="nofollow">
         <span aria-hidden="true">✉️</span>
         <span>Kontakt oss</span>
         <span class="sr-only">via e-post</span>
@@ -30,25 +29,22 @@ const desc = "Vi bygger noe kult. Hold utkikk.";
     </main>
 
     <script type="module">
-      // E-post obfuskering
-      const u = "tkatnok".split("").reverse().join("");
-      const d = "on.siralugnis".split("").reverse().join("");
-      const addr = `${u}@${d}`;
-      const link = document.getElementById("contact");
-      const label = "✉️ Kontakt oss";
-      link.href = `mailto:${addr}`;
-      link.title = addr;
-      link.addEventListener("mouseenter", () => (link.textContent = addr));
-      link.addEventListener("mouseleave", () => (link.textContent = label));
+  const u = "tkatnok".split("").reverse().join("");
+  const d = "on.siralugnis".split("").reverse().join("");
+  const addr = `${u}@${d}`;
+  const link = document.getElementById("contact");
+  const label = "✉️ Kontakt oss";
+  link.href = `mailto:${addr}`;
+  link.title = addr;
+  link.addEventListener("mouseenter", () => (link.textContent = addr));
+  link.addEventListener("mouseleave", () => (link.textContent = label));
 
-      // Starfield
   (function createStarfield() {
     const container = document.querySelector(".starfield");
     if (!container) return;
     const STAR_COUNT = 160;
     const rand = (min, max) => Math.random() * (max - min) + min;
 
-    // statiske stjerner
     for (let i = 0; i < STAR_COUNT; i++) {
       const s = document.createElement("div");
       s.className = "star";
@@ -64,7 +60,6 @@ const desc = "Vi bygger noe kult. Hold utkikk.";
       container.appendChild(s);
     }
 
-    // flere shooting stars
     function shooting() {
       const s = document.createElement("div");
       s.className = "shooting";
@@ -76,12 +71,11 @@ const desc = "Vi bygger noe kult. Hold utkikk.";
     }
 
     function shootingLoop() {
-      // lag 1–3 shooting stars per “runde”
       const count = Math.floor(rand(1, 4));
       for (let i = 0; i < count; i++) {
-        setTimeout(shooting, rand(0, 800)); // litt forsinkelse mellom dem
+        setTimeout(shooting, rand(0, 800));
       }
-      setTimeout(shootingLoop, rand(1500, 3000)); // ny runde raskere
+      setTimeout(shootingLoop, rand(2000, 5000));
     }
 
     shootingLoop();
