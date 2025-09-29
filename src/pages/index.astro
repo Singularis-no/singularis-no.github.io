@@ -12,35 +12,80 @@ const desc = "Vi bygger noe kult. Hold utkikk.";
     <title>{title}</title>
     <meta name="description" content={desc} />
     <meta name="robots" content="noindex, nofollow" />
-	<link rel="icon" type="/favicon.jpg" href="/favicon.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
   </head>
   <body>
+    <!-- Starfield som bakgrunn -->
+    <div class="starfield" aria-hidden="true"></div>
+
     <main class="card" aria-labelledby="logo">
       <p class="tag">Kommer snart</p>
       <h1 id="logo" class="logo">Singularis</h1>
-      <!-- Kontaktknapp: e-post settes av JS for å unngå scraping -->
       <a id="contact" class="cta" href="#" rel="nofollow">
         <span aria-hidden="true">✉️</span>
         <span>Kontakt oss</span>
         <span class="sr-only">via e-post</span>
       </a>
-
       <footer>© {new Date().getFullYear()} Singularis</footer>
     </main>
 
-<script type="module">
-  const u = "tkatnok".split("").reverse().join("");
-  const d = "on.siralugnis".split("").reverse().join("");
-  const addr = `${u}@${d}`;
+    <script type="module">
+      // E-post obfuskering
+      const u = "tkatnok".split("").reverse().join("");
+      const d = "on.siralugnis".split("").reverse().join("");
+      const addr = `${u}@${d}`;
+      const link = document.getElementById("contact");
+      const label = "✉️ Kontakt oss";
+      link.href = `mailto:${addr}`;
+      link.title = addr;
+      link.addEventListener("mouseenter", () => (link.textContent = addr));
+      link.addEventListener("mouseleave", () => (link.textContent = label));
 
-  const link = document.getElementById("contact");
-  const label = "✉️ Kontakt oss";
-  link.href = `mailto:${addr}`;
-  link.title = addr;
+      // Starfield
+  (function createStarfield() {
+    const container = document.querySelector(".starfield");
+    if (!container) return;
+    const STAR_COUNT = 160;
+    const rand = (min, max) => Math.random() * (max - min) + min;
 
-  link.addEventListener("mouseenter", () => (link.textContent = `Kontakt: ${addr}`));
-  link.addEventListener("mouseleave", () => (link.textContent = label));
+    // statiske stjerner
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const s = document.createElement("div");
+      s.className = "star";
+      const size = Math.round(rand(1, 3));
+      Object.assign(s.style, {
+        width: `${size}px`,
+        height: `${size}px`,
+        left: `${rand(0, 100)}%`,
+        top: `${rand(0, 100)}%`,
+        opacity: rand(0.3, 1).toFixed(2),
+        animationDelay: `${rand(0, 6)}s`,
+      });
+      container.appendChild(s);
+    }
+
+    // flere shooting stars
+    function shooting() {
+      const s = document.createElement("div");
+      s.className = "shooting";
+      s.style.left = `${rand(-10, 80)}%`;
+      s.style.top = `${rand(-20, 20)}%`;
+      s.style.transform = `rotate(${rand(-30, 30)}deg)`;
+      container.appendChild(s);
+      s.addEventListener("animationend", () => s.remove());
+    }
+
+    function shootingLoop() {
+      // lag 1–3 shooting stars per “runde”
+      const count = Math.floor(rand(1, 4));
+      for (let i = 0; i < count; i++) {
+        setTimeout(shooting, rand(0, 800)); // litt forsinkelse mellom dem
+      }
+      setTimeout(shootingLoop, rand(1500, 3000)); // ny runde raskere
+    }
+
+    shootingLoop();
+  })();
 </script>
-
   </body>
 </html>
