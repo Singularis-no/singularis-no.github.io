@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+
+const title = "Singularis — Kommer snart";
+const desc = "Vi bygger noe kult. Hold utkikk.";
+---
+
+<html lang="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body>
+    <main class="card" aria-labelledby="logo">
+      <p class="tag">Kommer snart</p>
+      <h1 id="logo" class="logo">Singularis</h1>
+      <!-- Kontaktknapp: e-post settes av JS for å unngå scraping -->
+      <a id="contact" class="cta" href="#" rel="nofollow">
+        <span aria-hidden="true">✉️</span>
+        <span>Kontakt oss</span>
+        <span class="sr-only">via e-post</span>
+      </a>
+
+      <footer>© {new Date().getFullYear()} Singularis</footer>
+    </main>
+
+<script type="module">
+  const u = "tkatnok".split("").reverse().join("");
+  const d = "on.siralugnis".split("").reverse().join("");
+  const addr = `${u}@${d}`;
+
+  const link = document.getElementById("contact");
+  const label = "✉️ Kontakt oss";
+  link.href = `mailto:${addr}`;
+  link.title = addr;
+
+  link.addEventListener("mouseenter", () => (link.textContent = `Kontakt: ${addr}`));
+  link.addEventListener("mouseleave", () => (link.textContent = label));
+</script>
+
+  </body>
+</html>
